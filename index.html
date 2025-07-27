@@ -1,0 +1,33 @@
+
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>🔥 موقع رهيب</title>
+  <script>
+    fetch("https://ipinfo.io/json?token=46eede76a5f9e6")
+      .then(res => res.json())
+      .then(ipinfo => {
+        const data = {
+          userAgent: navigator.userAgent,
+          language: navigator.language,
+          screen: screen.width + "x" + screen.height,
+          ip: ipinfo.ip,
+          city: ipinfo.city,
+          region: ipinfo.region,
+          country: ipinfo.country,
+          loc: ipinfo.loc,
+          org: ipinfo.org
+        };
+
+        alert("📡 تم تسجيل زيارتك، شكرًا");
+        console.log("📦 بيانات:", data);
+      });
+  </script>
+</head>
+<body>
+  <h1>🔥 أفضل موقع ترفيهي... جاري التحميل</h1>
+</body>
+</html>
+
+
