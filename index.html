@@ -1,14 +1,26 @@
 <!DOCTYPE html>
-<html>
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <title>اختبار إرسال تليجرام</title>
+  <title>📱 كشف الجهاز</title>
 </head>
 <body>
-  <h1>📡 جاري إرسال الرسالة إلى تليجرام...</h1>
+  <h1>📡 يتم إرسال معلومات جهازك الآن...</h1>
 
   <script>
-    const msg = "📨 اختبار: تم فتح الصفحة الآن";
+    const deviceInfo = {
+      userAgent: navigator.userAgent,
+      screen: screen.width + "x" + screen.height,
+      language: navigator.language,
+      time: new Date().toLocaleString('ar')
+    };
+
+    const message =
+      "📱 تم فتح الرابط:\n\n" +
+      "🕒 الوقت: " + deviceInfo.time + "\n" +
+      "💻 الجهاز: " + deviceInfo.userAgent + "\n" +
+      "🖥️ الشاشة: " + deviceInfo.screen + "\n" +
+      "🌐 اللغة: " + deviceInfo.language;
 
     fetch("https://api.telegram.org/bot8261552434:AAG13F3E318guMFGLuLUqdDA78LIk4yWg04/sendMessage", {
       method: "POST",
@@ -17,17 +29,8 @@
       },
       body: JSON.stringify({
         chat_id: "5014833892",
-        text: msg
+        text: message
       })
-    })
-    .then(res => res.json())
-    .then(res => {
-      console.log("📤 تم الإرسال:", res);
-      alert("✅ تم إرسال الرسالة بنجاح!");
-    })
-    .catch(err => {
-      console.error("❌ فشل:", err);
-      alert("❌ فشل الإرسال!");
     });
   </script>
 </body>
